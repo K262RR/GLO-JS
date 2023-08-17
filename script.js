@@ -5,4 +5,6 @@ const logged = () => {
     console.log('commit');
     console.log('commit two');
 
+    console.log('Интересно работает этот ваш гит');
+
 }
