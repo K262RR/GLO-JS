@@ -27,11 +27,11 @@ fullPrice = screenPrice + serviceCost1 + serviceCost2;
 
 if (fullPrice > 30000) {
     rollback = 10;
-    console.log('Попал в 1');
+    console.log('Скидка не предусмотрена');
 }
 else if ((15000 < fullPrice) && (fullPrice <= 30000)) {
     rollback = 5;
-    console.log('Попал в 2');
+    console.log('Скидка не предусмотрена');
 }
 else if ((0 <= fullPrice) && (fullPrice <= 15000)) {
     console.log('Скидка не предусмотрена');
