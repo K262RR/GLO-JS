@@ -65,13 +65,11 @@ const getServicePercentPrices = function(fullPrice) {
     return fullPrice - Math.ceil(fullPrice * (rollback / 100))
 }
 
-
 // Вызовы функций
 const allServicePrices  = getAllServicePrices(serviceCost1, serviceCost2);
 const fullPrice = getFullPrice(screenPrice, allServicePrices);
 const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 title = getTitle(title);
-
 
 // Выводы в консоль и все остальное
 showTypeOf(title);
@@ -79,10 +77,10 @@ showTypeOf(fullPrice);
 showTypeOf(adaptive);
 
 console.log('Необходимые экраны: ' + screens);
-
+console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
 // console.log('Стоимость дополнительных услуг: ' + allServicePrices);
 // console.log('Общая стоимость работ: ' + fullPrice);
-console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
+
 
 
 
