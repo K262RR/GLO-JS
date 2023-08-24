@@ -1,47 +1,89 @@
-let title = 'KUBAL.RU';
-let screens = 'Простые, Сложные, Интерактивные';
-let screenPrice = 1000;
-let fullPrice = 6900;
-let adaptive = true;
+// Объявление переменных
+let title = prompt('Как называется ваш проект');
+const screens = prompt('Какие типы экранов нужно разработать?');
+const screenPrice = +prompt('Сколько будет стоить данная работа?');
+const adaptive = confirm('Нужен ли адаптив на сайте?');
+const service1 = prompt('Какой дополнительный тип услуги нужен?');
+const serviceCost1 = +prompt('Сколько это будет стоить?');
+const service2 = prompt('Какой дополнительный тип услуги нужен?');
+const serviceCost2 = +prompt('Сколько это будет стоить?');
 let rollback = 0;
 
-console.log( typeof(title) );
-console.log( typeof(fullPrice) );
-console.log( typeof(adaptive) );
-console.log(screens.length);
-console.log(`Стоимость верстки экранов ${screenPrice} долларов`);
-console.log(`Стоимость разработки сайта ${fullPrice} долларов`);
-console.log( screens.toLocaleLowerCase().split(', ') );
-console.log( fullPrice * (rollback / 100) );
+// let title = '    KuBaL.RU  ';
+// const screens = 'Десктоп, мобилка';
+// const screenPrice = 10000;
+// const adaptive = true;
+// const serviceCost1 = 20000;
+// const serviceCost2 = 30000;
 
-title = prompt('Как называется ваш проект');
-screens  = prompt('Какие типы экранов нужно разработать?');
-screenPrice  = +prompt('Сколько будет стоить данная работа?');
-adaptive  = confirm('Нужен ли адаптив на сайте?');
-let service1 = prompt('Какой дополнительный тип услуги нужен?');
-let serviceCost1 = +prompt('Сколько это будет стоить?');
-let service2 = prompt('Какой дополнительный тип услуги нужен?');
-let serviceCost2 = +prompt('Сколько это будет стоить?');
 
-fullPrice = screenPrice + serviceCost1 + serviceCost2;
-
-if (fullPrice > 30000) {
-    rollback = 10;
-    console.log('Скидка не предусмотрена');
-}
-else if ((15000 < fullPrice) && (fullPrice <= 30000)) {
-    rollback = 5;
-    console.log('Скидка не предусмотрена');
-}
-else if ((0 <= fullPrice) && (fullPrice <= 15000)) {
-    console.log('Скидка не предусмотрена');
-}
-else {
-    console.log('Что-то пошло не так');
+// Объявление функций
+const showTypeOf = function(variable) {
+    return console.log( typeof(variable) );
 }
 
-let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100) )
-console.log(`Итоговая стоимость за вычетом отката: ${servicePercentPrice}`);
+// Функция возвращает сумму всех дополнительных услуг.
+const getAllServicePrices = function(serviceCost1, serviceCost2) {
+    return serviceCost1 + serviceCost2;
+}
+
+// Функция возвращает сумму стоимости верстки и стоимости дополнительных услуг
+function getFullPrice(screenPrice, allServicePrices) {
+    return screenPrice + allServicePrices
+}
+
+// Функция возвращает title меняя его таким образом: первый символ с большой буквы,
+const getTitle = function(title){
+    title = title.trim()
+    return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+}
+
+// Узнаем прцоент скидки
+const getRollbackMessage = function(fullPrice) {
+    if (fullPrice > 30000) {
+        console.log('Ваша скидка - 10%');
+        return rollback = 10;
+    }
+    else if ((15000 < fullPrice) && (fullPrice <= 30000)) {
+        console.log('Ваша скидка - 5%');
+        return rollback = 5;
+        
+    }
+    else if ((0 <= fullPrice) && (fullPrice <= 15000)) {
+        console.log('У вас пока нет скидки');
+        return rollback = 0;    }
+    else {
+        console.log('При расчете скидки что-то пошло не так');
+        return false
+    }
+
+}
+
+// Функция возвращает итоговую стоимость за вычетом процента отката
+const getServicePercentPrices = function(fullPrice) {
+    const rollback = getRollbackMessage(fullPrice)
+    return fullPrice - Math.ceil(fullPrice * (rollback / 100))
+}
+
+
+// Вызовы функций
+const allServicePrices  = getAllServicePrices(serviceCost1, serviceCost2);
+const fullPrice = getFullPrice(screenPrice, allServicePrices);
+const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
+title = getTitle(title);
+
+
+// Выводы в консоль и все остальное
+showTypeOf(title);
+showTypeOf(fullPrice);
+showTypeOf(adaptive);
+
+console.log('Необходимые экраны: ' + screens);
+
+// console.log('Стоимость дополнительных услуг: ' + allServicePrices);
+// console.log('Общая стоимость работ: ' + fullPrice);
+console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
+
 
 
 
