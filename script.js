@@ -1,14 +1,11 @@
 // Объявление переменных
-let title = prompt('Как называется ваш проект');
-const screens = prompt('Какие типы экранов нужно разработать?');
-const screenPrice = +prompt('Сколько будет стоить данная работа?');
-const adaptive = confirm('Нужен ли адаптив на сайте?');
-const service1 = prompt('Какой дополнительный тип услуги нужен?');
-const serviceCost1 = +prompt('Сколько это будет стоить?');
-const service2 = prompt('Какой дополнительный тип услуги нужен?');
-const serviceCost2 = +prompt('Сколько это будет стоить?');
+let title;
+let screens;
+let screenPrice;
+let adaptive;
 let rollback = 0;
-
+let service1;
+let service2;
 // let title = '    KuBaL.RU  ';
 // const screens = 'Десктоп, мобилка';
 // const screenPrice = 10000;
@@ -17,14 +14,49 @@ let rollback = 0;
 // const serviceCost2 = 30000;
 
 
+
+
 // Объявление функций
-const showTypeOf = function(variable) {
-    return console.log( typeof(variable) );
+const isNumber = function(num) {
+    return !isNaN(parseFloat(num)) && isFinite(num);
 }
 
-// Функция возвращает сумму всех дополнительных услуг.
-const getAllServicePrices = function(serviceCost1, serviceCost2) {
-    return serviceCost1 + serviceCost2;
+const asking = function() {
+    title = prompt('Как называется ваш проект', 'Калькулятор верстки');
+    screens = prompt('Какие типы экранов нужно разработать?', 'Простые, сложные');
+
+    // screenPrice = prompt('Сколько будет стоить данная работа?', '15000');
+    do {
+        screenPrice = parseFloat(prompt('Сколько будет стоить данная работа?', '15000'));
+    } while(!isNumber(screenPrice))
+    
+    adaptive = confirm('Нужен ли адаптив на сайте?');
+}
+
+// Функция возвращает сумму всех дополнительных услуг
+const getAllServicePrices = function() {
+    // return serviceCost1 + serviceCost2;
+    let sum = 0;
+
+    for (let i = 0; i < 2; i++) {
+        if (i === 0) {
+            service1 = prompt('Какой дополнительный тип услуги нужен?');
+        } else if (i === 1) {
+            service2 = prompt('Какой дополнительный тип услуги нужен?');
+        }
+
+        let currentValue = prompt('Сколько это будет стоить?');
+        
+        if ( isNumber(currentValue) ) {
+            sum += parseFloat(currentValue);
+        }        
+    }
+
+    return sum
+}
+
+const showTypeOf = function(variable) {
+    return console.log( typeof(variable) );
 }
 
 // Функция возвращает сумму стоимости верстки и стоимости дополнительных услуг
@@ -66,7 +98,8 @@ const getServicePercentPrices = function(fullPrice) {
 }
 
 // Вызовы функций
-const allServicePrices  = getAllServicePrices(serviceCost1, serviceCost2);
+asking();
+const allServicePrices  = getAllServicePrices();
 const fullPrice = getFullPrice(screenPrice, allServicePrices);
 const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 title = getTitle(title);
@@ -78,7 +111,7 @@ showTypeOf(adaptive);
 
 console.log('Необходимые экраны: ' + screens);
 console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
-// console.log('Стоимость дополнительных услуг: ' + allServicePrices);
+console.log('Стоимость дополнительных услуг: ' + allServicePrices);
 // console.log('Общая стоимость работ: ' + fullPrice);
 
 
