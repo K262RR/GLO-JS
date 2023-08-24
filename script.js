@@ -18,7 +18,10 @@ let service2;
 
 // Объявление функций
 const isNumber = function(num) {
-    return !isNaN(parseFloat(num)) && isFinite(num);
+    num = parseFloat(num)
+    if ( !isNaN(num) && isFinite(num)) {
+        return num;
+    }
 }
 
 const asking = function() {
