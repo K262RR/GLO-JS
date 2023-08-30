@@ -9,14 +9,15 @@ const appData = {
     servicePercentPrice: 0,
     services: {},
     asking: function() {
-        appData.title = prompt('Как называется ваш проект', 'Калькулятор верстки');     
+        
+        appData.title = appData.checkAnswerType('string', 'Как называется ваш проект?');
 
         for (let i = 0; i < 2; i++) {
-            let name = prompt('Какие экраны вам нужны');       
+            let name = appData.checkAnswerType('string', 'Какие экраны вам нужны?');      
             let price = 0;
 
             do {
-                price = parseFloat(prompt('Сколько будет стоить данная работа?', '15000'));
+                price = appData.checkAnswerType('number', 'Сколько будет стоить данная работа?');
             } while(!appData.isNumber(price))
 
             appData.screens.push({
@@ -29,13 +30,28 @@ const appData = {
         appData.adaptive = confirm('Нужен ли адаптив на сайте?');
 
         for (let i = 0; i < 2; i++) {
-            let name = prompt('Какой дополнительный тип услуги нужен?');       
-            let price = prompt('Сколько это будет стоить?');
+            let name = appData.checkAnswerType('string', 'Какой дополнительный тип услуги нужен?');    
+            let price = appData.checkAnswerType('number', 'Сколько это будет стоить?');
             
             if ( appData.isNumber(price) ) {
                appData.services[name] = +price;
             }        
         }
+    },
+
+    checkAnswerType: function(type, message) {
+            
+        data = prompt(message);
+    
+        if (type === 'string') {
+            if (!isNaN(Number(data))) appData.checkAnswerType(type, message);
+        } else if (type === 'number') {
+            if (isNaN(Number(data))) appData.checkAnswerType(type, message);
+        } else {
+            console.log('Неизвестный тип');
+            appData.checkAnswerType();
+        }
+        return data;
     },
 
     addPrices: function() {
@@ -61,7 +77,7 @@ const appData = {
 
     getTitle: function(title){
         title = title.trim()
-        appData.title = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+        title = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
     },
 
     getRollbackMessage: function(fullPrice) {
