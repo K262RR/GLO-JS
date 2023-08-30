@@ -1,17 +1,40 @@
 // Объявление переменных
-let title;
-let screens;
-let screenPrice;
-let adaptive;
-let rollback = 0;
-let service1;
-let service2;
+// let title;
+// let screens;
+// let screenPrice;
+// let adaptive;
+// let rollback = 0;
+// let service1;
+// let service2;
 // let title = '    KuBaL.RU  ';
 // const screens = 'Десктоп, мобилка';
 // const screenPrice = 10000;
 // const adaptive = true;
 // const serviceCost1 = 20000;
 // const serviceCost2 = 30000;
+
+const appData = {
+    title: '',
+    screens: '',
+    screenPrice: 0,
+    adaptive: true,
+    rollback: 10,
+    allServicePrices: 0,
+    fullPrice: 0,
+    servicePercentPrice: 0,
+    service1: '',
+    service2: '',
+    asking: function() {
+        appData.title = prompt('Как называется ваш проект', 'Калькулятор верстки');
+        appData.screens = prompt('Какие типы экранов нужно разработать?', 'Простые, сложные');
+    
+        do {
+            appData.screenPrice = parseFloat(prompt('Сколько будет стоить данная работа?', '15000'));
+        } while(!isNumber(appData.screenPrice))
+        
+        appData.adaptive = confirm('Нужен ли адаптив на сайте?');
+    }
+}
 
 
 
@@ -24,18 +47,6 @@ const isNumber = function(num) {
     }
 }
 
-const asking = function() {
-    title = prompt('Как называется ваш проект', 'Калькулятор верстки');
-    screens = prompt('Какие типы экранов нужно разработать?', 'Простые, сложные');
-
-    // screenPrice = prompt('Сколько будет стоить данная работа?', '15000');
-    do {
-        screenPrice = parseFloat(prompt('Сколько будет стоить данная работа?', '15000'));
-    } while(!isNumber(screenPrice))
-    
-    adaptive = confirm('Нужен ли адаптив на сайте?');
-}
-
 // Функция возвращает сумму всех дополнительных услуг
 const getAllServicePrices = function() {
     // return serviceCost1 + serviceCost2;
@@ -43,9 +54,9 @@ const getAllServicePrices = function() {
 
     for (let i = 0; i < 2; i++) {
         if (i === 0) {
-            service1 = prompt('Какой дополнительный тип услуги нужен?');
+            appData.service1 = prompt('Какой дополнительный тип услуги нужен?');
         } else if (i === 1) {
-            service2 = prompt('Какой дополнительный тип услуги нужен?');
+            appData.service2 = prompt('Какой дополнительный тип услуги нужен?');
         }
 
         let currentValue = prompt('Сколько это будет стоить?');
@@ -58,9 +69,9 @@ const getAllServicePrices = function() {
     return sum
 }
 
-const showTypeOf = function(variable) {
-    return console.log( typeof(variable) );
-}
+// const showTypeOf = function(variable) {
+//     return console.log( typeof(variable) );
+// }
 
 // Функция возвращает сумму стоимости верстки и стоимости дополнительных услуг
 function getFullPrice(screenPrice, allServicePrices) {
@@ -73,7 +84,7 @@ const getTitle = function(title){
     return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
 }
 
-// Узнаем прцоент скидки
+// Узнаем процент скидки
 const getRollbackMessage = function(fullPrice) {
     if (fullPrice > 30000) {
         console.log('Ваша скидка - 10%');
@@ -101,20 +112,23 @@ const getServicePercentPrices = function(fullPrice) {
 }
 
 // Вызовы функций
-asking();
-const allServicePrices  = getAllServicePrices();
-const fullPrice = getFullPrice(screenPrice, allServicePrices);
-const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
-title = getTitle(title);
+appData.asking();
+appData.allServicePrices  = getAllServicePrices();
+appData.fullPrice = getFullPrice(appData.screenPrice, appData.allServicePrices);
+appData.servicePercentPrice = getServicePercentPrices(appData.fullPrice, appData.rollback);
+appData.title = getTitle(appData.title);
+
+console.log(appData.fullPrice);
+console.log(appData.allServicePrices);
 
 // Выводы в консоль и все остальное
-showTypeOf(title);
-showTypeOf(fullPrice);
-showTypeOf(adaptive);
+// showTypeOf(title);
+// showTypeOf(fullPrice);
+// showTypeOf(adaptive);
 
-console.log('Необходимые экраны: ' + screens);
-console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
-console.log('Стоимость дополнительных услуг: ' + allServicePrices);
+// console.log('Необходимые экраны: ' + screens);
+// console.log('Стоимость за вычетом процента отката: ' + servicePercentPrice);
+// console.log('Стоимость дополнительных услуг: ' + allServicePrices);
 // console.log('Общая стоимость работ: ' + fullPrice);
 
 
