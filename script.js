@@ -7,7 +7,7 @@ const appData = {
     allServicePrices: 0,
     fullPrice: 0,
     servicePercentPrice: 0,
-    services: {},
+    services: [],
     asking: function() {
         
         appData.title = appData.checkAnswerType('string', 'Как называется ваш проект?');
@@ -23,7 +23,7 @@ const appData = {
             appData.screens.push({
                 id: i,
                 name: name,
-                price: price
+                price: +price
             })
         }
         
@@ -34,7 +34,11 @@ const appData = {
             let price = appData.checkAnswerType('number', 'Сколько это будет стоить?');
             
             if ( appData.isNumber(price) ) {
-               appData.services[name] = +price;
+                appData.services.push({
+                    id: i,
+                    name: name,
+                    price: +price  
+                })
             }        
         }
     },
@@ -55,12 +59,13 @@ const appData = {
     },
 
     addPrices: function() {
-        for (let screen of appData.screens) {
-            appData.screenPrice += +screen.price;
-        }
 
-        for(let key in appData.services) {
-            appData.allServicePrices += appData.services[key];
+        appData.screenPrice = appData.screens.reduce((sum, value) => {
+            return sum + value.price;
+        }, 0);
+
+        for(let key of appData.services) {
+            appData.allServicePrices += key.price;
         }
     },
 
@@ -121,6 +126,7 @@ const appData = {
         console.log('Итого с учетом скидки: ' + appData.servicePercentPrice);
 
         console.log(appData.screens);
+        console.log(appData.services);
 
         for (const key in appData) {
             console.log(key);
