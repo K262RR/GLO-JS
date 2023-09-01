@@ -23,6 +23,7 @@ console.log(rollbackSpan);
 
 // Нужно перебрать, чтобы получить сами элементы, а не коллекцию
 const totalInputs = document.getElementsByClassName('total-input');
+
 const totalInputsArray = []
     for (let el of totalInputs) {
         totalInputsArray.push(el)
