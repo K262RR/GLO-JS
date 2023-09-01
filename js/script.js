@@ -1,3 +1,40 @@
+const pageTitle = document.getElementsByTagName('h1');
+console.log(pageTitle[0].textContent);
+
+const costButtons = document.getElementsByClassName('handler_btn');
+console.log(costButtons);
+
+const pluScreenButton = document.querySelector('.screen-btn');
+console.log(pluScreenButton);
+
+// ---- Для куратора ----
+// Почему-то не добавляется в нодлист первый подходящий элемент. В верстке таких элементов два, а вижу в выборке только 1
+const otherItemsPercent = document.querySelectorAll('.other-items + .percent');
+console.log(otherItemsPercent);
+
+const otherItemsNumber = document.querySelectorAll('.other-items + .number ');
+console.log(otherItemsNumber);
+
+const rollbacInput = document.querySelector('.rollback').querySelector('input');
+console.log(rollbacInput);
+
+const rollbackSpan = document.querySelector('.rollback').querySelector('.range-value');
+console.log(rollbackSpan);
+
+// Нужно перебрать, чтобы получить сами элементы, а не коллекцию
+const totalInputs = document.getElementsByClassName('total-input');
+const totalInputsArray = []
+    for (let el of totalInputs) {
+        totalInputsArray.push(el)
+    } 
+console.log(totalInputsArray);
+
+let screens = document.querySelectorAll('.screen');
+console.log(screens);
+
+
+
+/*
 const appData = {
     title: '',
     screens: [],
@@ -10,14 +47,14 @@ const appData = {
     services: [],
     asking: function() {
         
-        appData.title = appData.checkAnswerType('string', 'Как называется ваш проект?');
+        // appData.title = appData.checkAnswerType('string', 'Как называется ваш проект?');
 
         for (let i = 0; i < 2; i++) {
-            let name = appData.checkAnswerType('string', 'Какие экраны вам нужны?');      
+            // let name = appData.checkAnswerType('string', 'Какие экраны вам нужны?');      
             let price = 0;
 
             do {
-                price = appData.checkAnswerType('number', 'Сколько будет стоить данная работа?');
+                // price = appData.checkAnswerType('number', 'Сколько будет стоить данная работа?');
             } while(!appData.isNumber(price))
 
             appData.screens.push({
@@ -27,11 +64,11 @@ const appData = {
             })
         }
         
-        appData.adaptive = confirm('Нужен ли адаптив на сайте?');
+        // appData.adaptive = confirm('Нужен ли адаптив на сайте?');
 
         for (let i = 0; i < 2; i++) {
-            let name = appData.checkAnswerType('string', 'Какой дополнительный тип услуги нужен?');    
-            let price = appData.checkAnswerType('number', 'Сколько это будет стоить?');
+            // let name = appData.checkAnswerType('string', 'Какой дополнительный тип услуги нужен?');    
+            // let price = appData.checkAnswerType('number', 'Сколько это будет стоить?');
             
             if ( appData.isNumber(price) ) {
                 appData.services.push({
@@ -135,3 +172,4 @@ const appData = {
 }
 
 appData.start();
+*/
