@@ -7,8 +7,6 @@ const sixthBookChapters = books[2].querySelectorAll('li');
 const sixthBookNewChapter = document.createElement('li');
 
 
-
-
 booksContainer.prepend(books[1]);
 booksContainer.append(books[3]);
 booksContainer.append(books[5]);
@@ -35,10 +33,6 @@ sixthBookChapters[9].after(sixthBookNewChapter);
 
 console.log(booksContainer);
 console.log(books);
-// console.log(adv);
-// console.log(secondBookChapters);
-// console.log(fifthBookChapters);
-// console.log(sixthBookChapters);
 console.log(sixthBookNewChapter);
 
 
