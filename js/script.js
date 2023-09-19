@@ -1,25 +1,23 @@
 const pageTitle = document.getElementsByTagName('h1');
-console.log(pageTitle[0].textContent);
+// console.log(pageTitle[0].textContent);
 
 const costButtons = document.getElementsByClassName('handler_btn');
-console.log(costButtons);
+// console.log(costButtons[0]);
 
 const pluScreenButton = document.querySelector('.screen-btn');
-console.log(pluScreenButton);
+// console.log(pluScreenButton);
 
-// ---- Для куратора ----
-// Почему-то не добавляется в нодлист первый подходящий элемент. В верстке таких элементов два, а вижу в выборке только 1
-const otherItemsPercent = document.querySelectorAll('.other-items + .percent');
-console.log(otherItemsPercent);
+const otherItemsPercent = document.querySelectorAll('.other-items.percent');
+// console.log(otherItemsPercent);
 
-const otherItemsNumber = document.querySelectorAll('.other-items + .number ');
-console.log(otherItemsNumber);
+const otherItemsNumber = document.querySelectorAll('.other-items.number ');
+// console.log(otherItemsNumber);
 
 const rollbacInput = document.querySelector('.rollback').querySelector('input');
-console.log(rollbacInput);
+// console.log(rollbacInput);
 
 const rollbackSpan = document.querySelector('.rollback').querySelector('.range-value');
-console.log(rollbackSpan);
+// console.log(rollbackSpan);
 
 // Нужно перебрать, чтобы получить сами элементы, а не коллекцию
 const totalInputs = document.getElementsByClassName('total-input');
@@ -28,58 +26,63 @@ const totalInputsArray = []
     for (let el of totalInputs) {
         totalInputsArray.push(el)
     } 
-console.log(totalInputsArray);
+// console.log(totalInputsArray);
 
 let screens = document.querySelectorAll('.screen');
-console.log(screens);
+// console.log(screens);
 
 
-
-/*
 const appData = {
     title: '',
     screens: [],
     screenPrice: 0,
     adaptive: true,
     rollback: 10,
-    allServicePrices: 0,
+    servicePricesPercent: 0,
+    servicePricesNumber: 0,
     fullPrice: 0,
-    servicePercentPrice: 0,
-    services: [],
-    asking: function() {
-        
-        // appData.title = appData.checkAnswerType('string', 'Как называется ваш проект?');
-
-        for (let i = 0; i < 2; i++) {
-            // let name = appData.checkAnswerType('string', 'Какие экраны вам нужны?');      
-            let price = 0;
-
-            do {
-                // price = appData.checkAnswerType('number', 'Сколько будет стоить данная работа?');
-            } while(!appData.isNumber(price))
-
-            appData.screens.push({
-                id: i,
-                name: name,
-                price: +price
-            })
-        }
-        
-        // appData.adaptive = confirm('Нужен ли адаптив на сайте?');
-
-        for (let i = 0; i < 2; i++) {
-            // let name = appData.checkAnswerType('string', 'Какой дополнительный тип услуги нужен?');    
-            // let price = appData.checkAnswerType('number', 'Сколько это будет стоить?');
-            
-            if ( appData.isNumber(price) ) {
-                appData.services.push({
-                    id: i,
-                    name: name,
-                    price: +price  
-                })
-            }        
-        }
+    servicesPercent: {},
+    servicesNumber: {},
+    // servicePercentPrice: 0,
+    
+    
+    init: function () {
+        appData.addTitle();
+        costButtons[0].addEventListener('click', appData.start)
+        pluScreenButton.addEventListener('click', appData.addScreenBlock)
     },
+
+    addTitle: function() {
+        document.title = title.textContent;
+    },
+
+    addServices: function () {
+        otherItemsPercent.forEach(function(item) {
+            const check = item.querySelector('input[type=checkbox]');
+            const label = item.querySelector('label');
+            const input = item.querySelector('input[type=text]');
+
+            if (check.checked) {
+                appData.servicesPercent[label.textContent] = +input.value;
+            }
+        });
+
+        otherItemsNumber.forEach(function(item) {
+            const check = item.querySelector('input[type=checkbox]');
+            const label = item.querySelector('label');
+            const input = item.querySelector('input[type=text]');
+
+            if (check.checked) {
+                appData.servicesNumber[label.textContent] = +input.value;
+            }
+        });
+    }, 
+
+    addScreenBlock: function () {
+        const cloneScreen = screens[0].cloneNode(true);
+        screens[screens.length - 1].after(cloneScreen);
+        console.log(cloneScreen);
+    }, 
 
     checkAnswerType: function(type, message) {
             
@@ -102,9 +105,16 @@ const appData = {
             return sum + value.price;
         }, 0);
 
-        for(let key of appData.services) {
-            appData.allServicePrices += key.price;
+        for(let key in appData.servicesNumber) {
+            appData.servicePricesNumber += appData.servicesNumber[key];
         }
+
+        for(let key in appData.servicesPercent) {
+            appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100);
+        }
+
+        appData.fullPrice = appData.screenPrice + appData.servicePricesPercent + appData.servicePricesNumber
+
     },
 
     isNumber: function(num) {
@@ -114,8 +124,29 @@ const appData = {
         }
     },
 
-    getFullPrice: function(screenPrice, allServicePrices) {
-        appData.fullPrice = screenPrice + allServicePrices
+    showResult: function() {
+        totalInputsArray[0].value = appData.screenPrice;
+        totalInputsArray[2].value = appData.servicePricesPercent + appData.servicePricesNumber;
+        totalInputsArray[3].value = appData.fullPrice;
+
+    },
+
+    addScreens: function() {
+        screens = document.querySelectorAll('.screen');
+
+        screens.forEach(function (screen, index) {
+            const select = screen.querySelector('select');
+            const input = screen.querySelector('input');
+            const selectName = select.options[select.selectedIndex].textContent;
+
+            appData.screens.push({
+                id: index,
+                name: selectName,
+                price: +select.value * +input.value
+            });
+        });
+
+        console.log(appData.screens);
     },
 
     getTitle: function(title){
@@ -149,13 +180,15 @@ const appData = {
     },
 
     start: function() {
-        appData.asking();
+
+        appData.addScreens();
+        appData.addServices()
+
         appData.addPrices();
-        appData.getFullPrice(appData.screenPrice, appData.allServicePrices);
-        appData.getServicePercentPrices(appData.fullPrice, appData.rollback);
-        appData.getTitle(appData.title);
-        
-        appData.logger();
+        // appData.getServicePercentPrices(appData.fullPrice, appData.rollback);
+        // appData.logger();
+        console.log(appData);
+        appData.showResult();
     },
     
     logger: function() {
@@ -172,5 +205,6 @@ const appData = {
     }
 }
 
-appData.start();
-*/
+appData.init();
+
+
